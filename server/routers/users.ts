@@ -7,25 +7,27 @@ const router = express.Router();
 mongoose.connect(process.env.DATABASE_URL);
 
 router.post('/register', async (req, res) => {
-	const { username, email, password } = req.body;
-	const newUser = await User.create({ username, email, password });
-	res.json({ username: newUser.username });
+	const { email, password } = req.body;
+	const newUser = await User.create({ email, password });
+	res.json({ email: newUser.email });
 });
 
 router.post('/login', async (req, res) => {
-	const { username, password } = req.body;
+	const { email, password } = req.body;
 	const user = await User.findOne({
-		username: username,
+		email: email,
 	});
 
 	if (user) {
+		console.log(user);
+
 		if (user.password === password) {
 			res.json({ email: user.email });
 		} else {
-			res.json({ error: 'Password not valid' });
+			res.status(401).json({ error: 'Password not valid' });
 		}
 	} else {
-		res.json({ error: 'User not found' });
+		res.status(404).json({ error: 'User not found' });
 	}
 });
 

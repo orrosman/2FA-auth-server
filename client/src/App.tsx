@@ -1,7 +1,8 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 
 function App() {
-	return <div className="App text-center">put some content here</div>;
+	return <Link to={'/login'}>Login</Link>;
 }
 
 export default App;
