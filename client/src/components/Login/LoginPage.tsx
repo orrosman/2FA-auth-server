@@ -1,7 +1,7 @@
 import React, { FormEvent, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Button, Form, Modal } from 'react-bootstrap';
-import { register, login, UserCredentials } from '../server-requests';
+import { register, login, UserCredentials } from '../../server-requests';
 
 function LoginPage() {
 	let navigate = useNavigate();
@@ -12,17 +12,15 @@ function LoginPage() {
 
 	const onRegisterSubmit = async (e: FormEvent) => {
 		e.preventDefault();
-		console.log(e.target as HTMLFormElement);
 
 		const formData = new FormData(e.target as HTMLFormElement),
 			formDataObj = Object.fromEntries(formData.entries());
-		console.log(formDataObj);
+
 		const credentials: UserCredentials = {
 			email: formDataObj.email as string,
 			password: formDataObj.password as string,
 		};
 		const response = await register(credentials);
-		console.log(response);
 
 		if (response.status === 200) {
 			navigate('/');
@@ -31,17 +29,15 @@ function LoginPage() {
 
 	const onLoginSubmit = async (e: FormEvent) => {
 		e.preventDefault();
-		console.log(e.target as HTMLFormElement);
 
 		const formData = new FormData(e.target as HTMLFormElement),
 			formDataObj = Object.fromEntries(formData.entries());
-		console.log(formDataObj);
+
 		const credentials: UserCredentials = {
 			email: formDataObj.email as string,
 			password: formDataObj.password as string,
 		};
 		const response = await login(credentials);
-		console.log(response);
 
 		if (response.status === 200) {
 			navigate('/');
