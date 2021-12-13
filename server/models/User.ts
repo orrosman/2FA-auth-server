@@ -14,6 +14,18 @@ const UserSchema = new mongoose.Schema({
 		default: false,
 		required: true,
 	},
+	secret: {
+		type: String,
+		required: false,
+	},
+	uri: {
+		type: String,
+		required: false,
+	},
+	qr: {
+		type: String,
+		required: false,
+	},
 });
 
 export const User = mongoose.model('User', UserSchema);
