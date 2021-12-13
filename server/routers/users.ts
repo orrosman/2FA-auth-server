@@ -19,8 +19,6 @@ router.post('/login', async (req, res) => {
 	});
 
 	if (user) {
-		console.log(user);
-
 		if (user.password === password) {
 			res.json({ email: user.email });
 		} else {
@@ -29,6 +27,14 @@ router.post('/login', async (req, res) => {
 	} else {
 		res.status(404).json({ error: 'User not found' });
 	}
+});
+
+router.post('/2FA', async (req, res) => {
+	const { email } = req.body;
+	const newUser = await User.findOneAndUpdate({ email: email }, [
+		{ $set: { '2FA': { $eq: [false, '$2FA'] } } },
+	]);
+	res.json({ email: newUser.email });
 });
 
 module.exports = router;
