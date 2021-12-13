@@ -1,13 +1,18 @@
+const mongoose = require('mongoose');
+import { User } from '../models/User';
+require('dotenv').config();
 const twofactor = require('node-2fa');
 import express from 'express';
 const router = express.Router();
+
+mongoose.connect(process.env.DATABASE_URL);
 
 interface Options {
 	name: string;
 	account: string;
 }
 
-router.post('/generateSecret', (req, res) => {
+router.post('/generateSecret', async (req, res) => {
 	const { name, account }: Options = req.body;
 
 	let newSecret: Object;
@@ -17,7 +22,12 @@ router.post('/generateSecret', (req, res) => {
 		newSecret = generateSecret();
 	}
 
-	res.json(newSecret);
+	const response = await User.findOneAndUpdate(
+		{ email: account },
+		{ ...newSecret }
+	);
+
+	res.json({ qr: response.qr });
 });
 
 router.post('/generateToken', (req, res) => {
@@ -28,15 +38,17 @@ router.post('/generateToken', (req, res) => {
 	res.json(newToken);
 });
 
-router.post('/verify', (req, res) => {
-	const { secret, token } = req.body;
+router.post('/verify', async (req, res) => {
+	const { email, token } = req.body;
+	const secret = await User.findOne({ email: email }).secret;
+	console.log(secret);
 
 	let isValid = verifyToken(secret, token);
 
 	res.json(isValid);
 });
 
-const generateSecret = (options?: Options) => {
+export const generateSecret = (options?: Options) => {
 	if (options) {
 		return twofactor.generateSecret({
 			name: options.name,
