@@ -20,7 +20,7 @@ function AuthPage() {
 		if (response.status === 200) {
 			try {
 				if (response.data.delta === 0) {
-					navigate('/');
+					navigate('/dashboard');
 				} else {
 					console.log('wrong token');
 				}

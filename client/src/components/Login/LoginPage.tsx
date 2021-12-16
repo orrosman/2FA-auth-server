@@ -43,7 +43,7 @@ function LoginPage() {
 			if (response.data['2FA']) {
 				navigate('/2FA', { state: { email: response.data.email } });
 			} else {
-				navigate('/');
+				navigate('/dashboard');
 			}
 		}
 	};
@@ -63,6 +63,7 @@ function LoginPage() {
 					<Form.Label>Password</Form.Label>
 					<Form.Control
 						name="password"
+						className="text-muted"
 						type="password"
 						placeholder="Password"
 					/>
