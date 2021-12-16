@@ -40,7 +40,11 @@ function LoginPage() {
 		const response = await login(credentials);
 
 		if (response.status === 200) {
-			navigate('/');
+			if (response.data['2FA']) {
+				navigate('/2FA', { state: { email: response.data.email } });
+			} else {
+				navigate('/');
+			}
 		}
 	};
 

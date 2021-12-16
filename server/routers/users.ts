@@ -20,7 +20,7 @@ router.post('/login', async (req, res) => {
 
 	if (user) {
 		if (user.password === password) {
-			res.json({ email: user.email });
+			res.json(user);
 		} else {
 			res.status(401).json({ error: 'Password not valid' });
 		}

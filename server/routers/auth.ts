@@ -40,10 +40,9 @@ router.post('/generateToken', (req, res) => {
 
 router.post('/verify', async (req, res) => {
 	const { email, token } = req.body;
-	const secret = await User.findOne({ email: email }).secret;
-	console.log(secret);
+	const user = await User.findOne({ email: email });
 
-	let isValid = verifyToken(secret, token);
+	let isValid = verifyToken(user.secret, token);
 
 	res.json(isValid);
 });

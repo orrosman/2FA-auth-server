@@ -26,3 +26,11 @@ export const twoFactorAuth = async (email: string) => {
 	});
 	return response;
 };
+
+export const verifyToken = async (email: string, code: string) => {
+	const response = await axios.post(`${BASE_API_URL}/auth/verify`, {
+		token: code,
+		email: email,
+	});
+	return response;
+};
