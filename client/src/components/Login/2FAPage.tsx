@@ -20,7 +20,9 @@ function AuthPage() {
 		if (response.status === 200) {
 			try {
 				if (response.data.delta === 0) {
-					navigate('/dashboard');
+					navigate('/dashboard', {
+						state: { '2FA': true, email: state.email },
+					});
 				} else {
 					console.log('wrong token');
 				}

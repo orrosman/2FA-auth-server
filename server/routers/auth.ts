@@ -15,12 +15,7 @@ interface Options {
 router.post('/generateSecret', async (req, res) => {
 	const { name, account }: Options = req.body;
 
-	let newSecret: Object;
-	if (name && account) {
-		newSecret = generateSecret({ name: name, account: account });
-	} else {
-		newSecret = generateSecret();
-	}
+	const newSecret = generateSecret({ name: name, account: account });
 
 	const response = await User.findOneAndUpdate(
 		{ email: account },
@@ -47,15 +42,13 @@ router.post('/verify', async (req, res) => {
 	res.json(isValid);
 });
 
-export const generateSecret = (options?: Options) => {
-	if (options) {
-		return twofactor.generateSecret({
-			name: options.name,
-			account: options.account,
-		});
-	} else {
-		return twofactor.generateSecret();
-	}
+const generateSecret = async (options: Options) => {
+	const newSecret = twofactor.generateSecret({
+		name: options.name,
+		account: options.account,
+	});
+
+	return await User.findOneAndUpdate({ email: options.name }, { ...newSecret });
 };
 
 const generateToken = (secret: string): string => {
@@ -66,4 +59,4 @@ const verifyToken = (secret: string, token: string) => {
 	return twofactor.verifyToken(secret, token);
 };
 
-module.exports = router;
+module.exports = { router, generateSecret };

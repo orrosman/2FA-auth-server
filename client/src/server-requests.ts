@@ -21,6 +21,8 @@ export const login = async (credentials: UserCredentials) => {
 };
 
 export const twoFactorAuth = async (email: string) => {
+	console.log(email);
+
 	const response = await axios.post(`${BASE_API_URL}/user/2FA`, {
 		email: email,
 	});

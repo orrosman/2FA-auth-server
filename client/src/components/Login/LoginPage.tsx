@@ -43,7 +43,9 @@ function LoginPage() {
 			if (response.data['2FA']) {
 				navigate('/2FA', { state: { email: response.data.email } });
 			} else {
-				navigate('/dashboard');
+				navigate('/dashboard', {
+					state: { '2FA': false, email: response.data.email },
+				});
 			}
 		}
 	};

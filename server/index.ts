@@ -1,7 +1,7 @@
 import express = require('express');
 import cors = require('cors');
 const port = 3001;
-const auth = require('./routers/auth');
+const { router: auth } = require('./routers/auth');
 const user = require('./routers/users');
 const app = express();
 
