@@ -49,8 +49,8 @@ function LoginPage() {
 	};
 
 	return (
-		<>
-			<Form className="container" onSubmit={onLoginSubmit}>
+		<div className="container">
+			<Form onSubmit={onLoginSubmit}>
 				<Form.Group className="mb-3" controlId="formBasicEmail">
 					<Form.Label>Email address</Form.Label>
 					<Form.Control name="email" type="email" placeholder="Enter email" />
@@ -69,49 +69,47 @@ function LoginPage() {
 				</Form.Group>
 				<Button type="submit">Login</Button>
 			</Form>
+			<p className="text-muted m-0 mt-1">Don't have a user? Register!</p>
+			<Button className="mt-2" variant="primary" onClick={handleShow}>
+				Register
+			</Button>
 
-			<>
-				<Button variant="primary" onClick={handleShow}>
-					Register
-				</Button>
+			<Modal show={show} onHide={handleClose}>
+				<Modal.Header closeButton>
+					<Modal.Title>Register</Modal.Title>
+				</Modal.Header>
+				<Modal.Body>
+					<Form className="container" onSubmit={onRegisterSubmit}>
+						<Form.Group className="mb-3" controlId="formBasicEmail">
+							<Form.Label>Email address</Form.Label>
+							<Form.Control
+								name="email"
+								type="email"
+								placeholder="Enter email"
+							/>
+							<Form.Text className="text-muted">
+								We'll never share your email with anyone else.
+							</Form.Text>
+						</Form.Group>
 
-				<Modal show={show} onHide={handleClose}>
-					<Modal.Header closeButton>
-						<Modal.Title>Register</Modal.Title>
-					</Modal.Header>
-					<Modal.Body>
-						<Form className="container" onSubmit={onRegisterSubmit}>
-							<Form.Group className="mb-3" controlId="formBasicEmail">
-								<Form.Label>Email address</Form.Label>
-								<Form.Control
-									name="email"
-									type="email"
-									placeholder="Enter email"
-								/>
-								<Form.Text className="text-muted">
-									We'll never share your email with anyone else.
-								</Form.Text>
-							</Form.Group>
-
-							<Form.Group className="mb-3" controlId="formBasicPassword">
-								<Form.Label>Password</Form.Label>
-								<Form.Control
-									name="password"
-									type="password"
-									placeholder="Password"
-								/>
-							</Form.Group>
-							<Button variant="secondary" onClick={handleClose}>
-								Close
-							</Button>
-							<Button variant="primary" type="submit">
-								Register
-							</Button>
-						</Form>
-					</Modal.Body>
-				</Modal>
-			</>
-		</>
+						<Form.Group className="mb-3" controlId="formBasicPassword">
+							<Form.Label>Password</Form.Label>
+							<Form.Control
+								name="password"
+								type="password"
+								placeholder="Password"
+							/>
+						</Form.Group>
+						<Button variant="secondary" onClick={handleClose}>
+							Close
+						</Button>
+						<Button variant="primary" type="submit">
+							Register
+						</Button>
+					</Form>
+				</Modal.Body>
+			</Modal>
+		</div>
 	);
 }
 
